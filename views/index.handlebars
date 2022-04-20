@@ -1,6 +1,6 @@
 {{#if urlData}}
 <h4>Success! Please use this link:</h4>
-<a href="{{{ urlData.originalUrl }}}">
+<a href="{{urlBasic}}{{ urlData.shortenUrl }}">
   <h5>{{urlBasic}}{{ urlData.shortenUrl }}</h5>
 </a>
 <div class="button-area mt-3">
@@ -8,10 +8,18 @@
   <button class="btn btn-primary mx-2">Copy</button>
 </div>
 {{else}}
+{{#if errorURL}}
+<div class="alert">
+  <span>URL:"{{errorURL}}" is not exist!</span>
+  <span>Please create a new one!</span>
+</div>
+
+{{/if}}
 <form action="./" method="POST">
   <div class="mb-3">
     <input type="url" class="form-control" name="url" placeholder="Input URL here" required>
   </div>
   <button type="submit" class="btn btn-outline-primary">Shorten</button>
 </form>
+
 {{/if}}
