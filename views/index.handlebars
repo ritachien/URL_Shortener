@@ -1,20 +1,37 @@
 {{#if urlData}}
+
 <h4>Success! Please use this link:</h4>
 <a href="{{urlBasic}}{{ urlData.shortenUrl }}">
-  <h5>{{urlBasic}}{{ urlData.shortenUrl }}</h5>
+  <h5 id="shortenLink">{{urlBasic}}{{ urlData.shortenUrl }}</h5>
 </a>
 <div class="button-area mt-3">
   <a href="./" class="btn btn-success mx-2">Retry</a>
-  <button class="btn btn-primary mx-2">Copy</button>
+  <button class="btn btn-primary mx-2" id="copyButton" onclick="copyClick()">Copy</button>
 </div>
+
+<script>
+  //use Clipboard API (非同步)
+  function copyClick() {
+    const copyText = document.getElementById('shortenLink')
+    const copyButton = document.getElementById('copyButton')
+    navigator.clipboard.writeText(copyText.innerText)
+      .then(() => {
+        copyButton.innerText = 'Copied!'
+        copyButton.className = 'btn btn-secondary mx-2'
+      })
+      .catch(error => console.log(error))
+  }
+</script>
+
 {{else}}
+
 {{#if errorURL}}
 <div class="alert">
   <span>URL:"{{errorURL}}" is not exist!</span>
   <span>Please create a new one!</span>
 </div>
-
 {{/if}}
+
 <form action="./" method="POST">
   <div class="mb-3">
     <input type="url" class="form-control" name="url" placeholder="Input URL here" required>
