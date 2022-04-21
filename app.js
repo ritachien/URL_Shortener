@@ -5,7 +5,7 @@ const bodyParser = require('body-parser')
 
 require('./config/mongoose')
 const UrlIndex = require('./models/urlIndex')
-const urlProduce = require('./utilities/urlProduce')
+const ShortGenerator = require('./utils/shortGenerator')
 
 const app = express()
 
@@ -31,21 +31,26 @@ app.get('/', (req, res) => {
 
 // Create: create index after convert
 app.post('/', (req, res) => {
-  // check if user input has already in index
+  // Check if user input already in URL index
   UrlIndex.findOne({ originalUrl: req.body.url })
     .then(urlData => {
-      const newUrl = urlProduce(randomLength)
-      return urlData ? urlData : UrlIndex.create({
-        shortenUrl: newUrl,
-        originalUrl: req.body.url
-      })
-    })
-    .then(urlData => {
-      urlData = urlData.toObject()
-      res.render('index', { urlBasic, urlData })
+      ShortGenerator(randomLength)
+        // generate new shortURL
+        .then(url => {
+          return urlData ? urlData : UrlIndex.create({
+            shortenUrl: url,
+            originalUrl: req.body.url
+          })
+        })
+        .then(urlData => {
+          urlData = urlData.toObject()
+          res.render('index', { urlBasic, urlData })
+        })
+        .catch(err => console.log(err))
     })
     .catch(err => console.log(err))
 })
+
 
 // Read: convert link from shortenURL to OriginalURL
 app.get('/:shortenUrl', (req, res) => {

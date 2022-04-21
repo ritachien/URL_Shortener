@@ -27,14 +27,15 @@
 
 {{#if errorURL}}
 <div class="alert">
-  <span>URL:"{{errorURL}}" is not exist!</span>
-  <span>Please create a new one!</span>
+  <span>URL:"{{errorURL}}" is invalid!</span>
+  <span>Please check & create a new one!</span>
 </div>
 {{/if}}
 
 <form action="./" method="POST">
   <div class="mb-3">
     <input type="url" class="form-control" name="url" placeholder="Input URL here" required>
+
   </div>
   <button type="submit" class="btn btn-outline-primary">Shorten</button>
 </form>
