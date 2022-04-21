@@ -69,5 +69,5 @@ app.get('/:shortenUrl', (req, res) => {
 
 // Listen the server
 app.listen(port, () => {
-  console.log(`App is running on http://localhost:${port}`)
+  console.log(`App is running on ${urlBasic}`)
 })
