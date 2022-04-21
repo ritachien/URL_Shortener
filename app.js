@@ -37,6 +37,7 @@ app.post('/', (req, res) => {
       ShortGenerator(randomLength)
         // generate new shortURL
         .then(url => {
+          // If already exist, use old one. If not yet exist, create new one.
           return urlData ? urlData : UrlIndex.create({
             shortenUrl: url,
             originalUrl: req.body.url
